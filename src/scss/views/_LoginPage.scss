@@ -1,0 +1,245 @@
+#loginWrap {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 121px);
+
+    #loginBox {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: calc(50% - 120px);
+        width: 360px;
+        height: 100px;
+
+        display: flex;
+        flex-direction: column;
+
+        h1.logo {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            font: bold 38px/1 $logoFont;
+            letter-spacing: 1.25px;
+
+            background: linear-gradient(45deg, #006eff 0%, #46acff 50%, #006eff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 30px;
+        }
+    }
+}
+
+
+form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    >div {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        color: #a3a3a3;
+        font: normal 12px/1 $mainFont;
+
+        .checkList {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+
+            >label {
+                padding-left: 20px;
+                z-index: 1;
+            }
+
+            >input {
+                display: none;
+                margin-right: 5px;
+                border: 1px solid $lineColor;
+
+                &:checked {
+                    background: #00aeff;
+
+                    &+.checkBox {
+                        background: #00aeff;
+                        border: 1px solid #00aeff;
+
+                        &::after {
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            .checkBox {
+                position: absolute;
+                width: 14px;
+                height: 14px;
+                background-color: #ffffff;
+                border: 1px solid $lineColor;
+                border-radius: 2.5px;
+
+                &::after {
+                    content: "";
+                    display: none;
+                    position: absolute;
+                    transform: translate(-50%, -50%);
+                    left: 50%;
+                    top: 50%;
+                    width: 10px;
+                    height: 10px;
+                    background-size: contain;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    background-image: url("@/assets/check.png");
+                }
+            }
+        }
+    }
+
+    >input {
+        width: 100%;
+        height: 44px;
+        padding: 5px 10px;
+        border: 1px solid $lineColor;
+        outline: none;
+        border-radius: 5px;
+        margin-bottom: 10px;
+
+        color: $logoDarkColor;
+        font: normal 12px/1 $mainFont;
+
+        &::placeholder {
+            color: $logoDarkColor;
+        }
+
+        &:focus {
+            border: 1px solid rgba($color: #000000, $alpha: 0.3);
+        }
+
+        &[type="submit"] {
+            background: #00aeff;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font: bold 12px/1 $mainFont;
+            cursor: pointer;
+        }
+    }
+}
+
+.line {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+
+    >a,
+    >span {
+        position: relative;
+        width: 100%;
+        color: $logoDarkColor;
+        text-align: center;
+        font: bold 12px/1 $mainFont;
+    }
+
+    &.and>span {
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            transform: translateY(-50%);
+            top: 50%;
+            width: 42%;
+            height: 1px;
+            background: $lineColor;
+        }
+
+        &::before {
+            left: 0;
+        }
+
+        &::after {
+            right: 0;
+        }
+    }
+
+    &.end>a {
+        width: auto;
+        font-weight: normal;
+        cursor: pointer;
+
+        &::before {
+            content: "|";
+            margin: 0 10px;
+        }
+
+        &:first-of-type::before {
+            display: none;
+        }
+    }
+}
+
+#oAuthMenu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    margin-bottom: 10px;
+
+    >button {
+        outline: none;
+        border: none;
+        position: relative;
+        height: 44px;
+        padding: 5px 10px;
+        border-radius: 5px;
+
+        margin-top: 10px;
+        cursor: pointer;
+
+        @include FlexCenter(row);
+
+        &:first-of-type {
+            margin-top: 20px;
+        }
+
+        &.kakao {
+            background: #fddc3f;
+
+            >.logo {
+                background-image: url("@/assets/kakao.png");
+            }
+        }
+
+        &.toss {
+            background: #0050ff;
+            color: #ffffff;
+
+            >.logo {
+                background-image: url("@/assets/toss.png");
+            }
+        }
+
+        >.logo {
+            position: absolute;
+            transform: translateY(-50%);
+            left: 15px;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        >.text {
+            font: bold 12px/1 $mainFont;
+        }
+    }
+}

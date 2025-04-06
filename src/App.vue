@@ -1,26 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nav>
+        <router-link to="/LoginPage">로그인</router-link> |
+        <router-link to="/SignUpPage">회원가입</router-link>
+    </nav>
+    <router-view/>
+    <FooterBox />
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-    name: 'App',
-    components: {
-        HelloWorld
-    }
-}
+<script setup>
+    import FooterBox from "./components/FooterBox.vue";
 </script>
 
-<style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
+<style lang="scss">
+    @import "./scss/main.scss";
 </style>

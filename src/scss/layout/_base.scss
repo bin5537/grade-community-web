@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'Paperlogy';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SpoqaHanSansNeo";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    letter-spacing: -0.4px;
+}
+
+ol,
+ul,
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+$mainFont: "SpoqaHanSansNeo";
+$logoFont: "Paperlogy";
+$baseFontSize: 14px;
+$primaryColor: #333;
+$subTextColor: #999;
+$logoDarkColor: #a3a3a3;
+$lineColor: #e0e0e0;
+$borderRadius: 4px;
+$backgroundColor: #f9f9f9;
+
+@mixin FlexCenter($direction: row, $gap: 0) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: center;
+    justify-content: center;
+    gap: $gap;
+}
