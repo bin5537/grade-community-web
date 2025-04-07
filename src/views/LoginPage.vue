@@ -22,7 +22,7 @@
             </div>
 
             <div id="oAuthMenu">
-                <button v-for="btn in oAuthButtons" :key="btn.category" :class="btn.category">
+                <button v-for="btn in oAuthButtons" :key="btn.category" :class="btn.category" @click="oAuthLogin(btn.category)">
                     <span class="logo"></span>
                     <span class="text">{{ btn.text }}</span>
                 </button>
@@ -43,18 +43,39 @@
 </style>
 
 <script setup>
+    // 체크박스 목록 정리
     const checkBoxs = [
         { id: "save_id", label: "아이디 저장" },
         { id: "keep_login", label: "자동 로그인" },
     ]
+
+    // 간편 로그인 목록록 정리
     const oAuthButtons = [
         { category: "kakao", text: "카카오로 로그인" },
-        { category: "toss", text: "토스로 로그인" },
+        { category: "naver", text: "네이버로 로그인" },
     ]
 
+    // 하단 하이퍼링크 목록 정리
     const footerLinks = [
         { text: "아이디 찾기", href: "#" },
         { text: "비밀번호 찾기", href: "#" },
         { text: "회원가입", href: "#" },
     ]
+
+    // 카카오 JavaScript SDK 키 (키 노출방지를 위해 env 활용)
+    window.Kakao.init(process.env.VUE_APP_KAKAO_JAVASCRIPT_KEY);
+
+    // 간편 로그인 버튼 클릭시 (category로 값을 받아 확인(카카오, 네이버 등))
+    function oAuthLogin(category) {
+        if (category === "kakao") {
+            // kakao가 없거나 Auth가 없으면 return
+            if (!window.Kakao || !window.Kakao.Auth) return;
+
+            // 카카오 로그인 인증요청
+            window.Kakao.Auth.authorize({ redirectUri: "http://localhost:1115/kakao/callback" });
+        } else if (category === "naver") {
+            // 네이버인경우 실행
+            alert("naver 인증요청(test)");
+        }
+    }
 </script>
