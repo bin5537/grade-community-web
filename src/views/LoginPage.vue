@@ -7,15 +7,10 @@
                 <input type="password" placeholder="비밀번호를 입력하세요.">
 
                 <div>
-                    <div class="checkList">
-                        <input type="checkbox" id="save_id">
+                    <div class="checkList" v-for="checkBox in checkBoxs" :key="checkBox.id">
+                        <input type="checkbox" :id="checkBox.id">
                         <span class="checkBox"></span>
-                        <label for="save_id">아이디 저장</label>
-                    </div>
-                    <div class="checkList">
-                        <input type="checkbox" id="keep_login">
-                        <span class="checkBox"></span>
-                        <label for="keep_login">자동 로그인</label>
+                        <label :for="checkBox.id">{{ checkBox.label }}</label>
                     </div>
                 </div>
 
@@ -27,20 +22,16 @@
             </div>
 
             <div id="oAuthMenu">
-                <button class="kakao">
+                <button v-for="btn in oAuthButtons" :key="btn.category" :class="btn.category">
                     <span class="logo"></span>
-                    <span class="text">카카오로 로그인</span>
-                </button>
-                <button class="toss">
-                    <span class="logo"></span>
-                    <span class="text">토스로 로그인</span>
+                    <span class="text">{{ btn.text }}</span>
                 </button>
             </div>
 
             <div class="line end">
-                <a href="#">아이디 찾기</a>
-                <a href="#">비밀번호호 찾기</a>
-                <a href="#">회원가입</a>
+                <a v-for="(link, idx) in footerLinks" :key="idx" :href="link.href">
+                    {{ link.text }}
+                </a>
             </div>
         </article>
     </section>
@@ -51,3 +42,19 @@
     @import "../scss/views/_LoginPage.scss";
 </style>
 
+<script setup>
+    const checkBoxs = [
+        { id: "save_id", label: "아이디 저장" },
+        { id: "keep_login", label: "자동 로그인" },
+    ]
+    const oAuthButtons = [
+        { category: "kakao", text: "카카오로 로그인" },
+        { category: "toss", text: "토스로 로그인" },
+    ]
+
+    const footerLinks = [
+        { text: "아이디 찾기", href: "#" },
+        { text: "비밀번호 찾기", href: "#" },
+        { text: "회원가입", href: "#" },
+    ]
+</script>
