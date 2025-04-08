@@ -1,0 +1,56 @@
+main {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#banner {
+    position: relative;
+    margin: 30px auto;
+    width: 1280px;
+    height: 480px;
+
+    background: $hoverBgColor;
+    border-radius: 30px;
+
+    @include FlexCenter(row);
+    font: bold 48px/1 $mainFont;
+    color: $subTextColor;
+}
+
+#stats {
+    position: relative;
+    margin: 0 auto;
+    width: 1280px;
+    margin-bottom: 30px;
+
+    >.title {
+        display: flex;
+        align-items: center;
+
+        >img {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            padding: 10px;
+            object-fit: contain;
+            background: $hoverBgColor;
+            border-radius: 15px;
+            margin-right: 15px;
+        }
+
+        >div {
+            >h2 {
+                font: bold 20px/1 $mainFont;
+                margin-bottom: 5px;
+            }
+
+            >p {
+                color: $subTextColor;
+                font: normal 16px/1 $mainFont;
+            }
+        }
+    }
+}

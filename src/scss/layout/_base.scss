@@ -42,12 +42,13 @@ a {
 $mainFont: "SpoqaHanSansNeo";
 $logoFont: "Paperlogy";
 $baseFontSize: 14px;
-$primaryColor: #333;
+$primaryColor: #444;
 $subTextColor: #999;
 $logoDarkColor: #a3a3a3;
 $lineColor: #e0e0e0;
 $borderRadius: 4px;
 $backgroundColor: #f9f9f9;
+$hoverBgColor: #f6f6f6;
 
 @mixin FlexCenter($direction: row, $gap: 0) {
     display: flex;
@@ -55,4 +56,14 @@ $backgroundColor: #f9f9f9;
     align-items: center;
     justify-content: center;
     gap: $gap;
+}
+
+
+@mixin gradientText($fontSize: 38px, $lineHeight: 1, $fontFamily: $logoFont, $letterSpacing: 1.25px) {
+    font: bold #{$fontSize}/#{$lineHeight} #{$fontFamily};
+    letter-spacing: $letterSpacing;
+
+    background: linear-gradient(45deg, #006eff 0%, #46acff 50%, #006eff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

@@ -1,15 +1,14 @@
 #loginWrap {
     position: relative;
     width: 100%;
-    height: calc(100% - 121px);
+    height: calc(100% - 121px - 80px);
 
     #loginBox {
         position: absolute;
         transform: translate(-50%, -50%);
         left: 50%;
-        top: calc(50% - 120px);
+        top: 50%;
         width: 360px;
-        height: 100px;
 
         display: flex;
         flex-direction: column;
@@ -18,12 +17,7 @@
             position: relative;
             display: flex;
             justify-content: center;
-            font: bold 38px/1 $logoFont;
-            letter-spacing: 1.25px;
-
-            background: linear-gradient(45deg, #006eff 0%, #46acff 50%, #006eff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            @include gradientText(38px, 1);
 
             margin-bottom: 30px;
         }

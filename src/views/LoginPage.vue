@@ -38,11 +38,13 @@
 </template>
 
 <style lang="scss">
-    @import "../scss/layout/_Base.scss";
+    @import "../scss/layout/_base.scss";
     @import "../scss/views/_LoginPage.scss";
 </style>
 
 <script setup>
+    import { onMounted } from "vue";
+
     // 체크박스 목록 정리
     const checkBoxs = [
         { id: "save_id", label: "아이디 저장" },
@@ -63,7 +65,11 @@
     ]
 
     // 카카오 JavaScript SDK 키 (키 노출방지를 위해 env 활용)
-    window.Kakao.init(process.env.VUE_APP_KAKAO_JAVASCRIPT_KEY);
+    onMounted(() => {
+        if (!window.Kakao.isInitialized()) {
+            window.Kakao.init(process.env.VUE_APP_KAKAO_JAVASCRIPT_KEY);
+        }
+    });
 
     // 간편 로그인 버튼 클릭시 (category로 값을 받아 확인(카카오, 네이버 등))
     function oAuthLogin(category) {

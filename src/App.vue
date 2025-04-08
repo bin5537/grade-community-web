@@ -1,14 +1,12 @@
 <template>
-    <nav>
-        <router-link to="/LoginPage">로그인</router-link> |
-        <router-link to="/SignUpPage">회원가입</router-link>
-    </nav>
+    <headerBox />
     <router-view/>
     <FooterBox />
 </template>
 
 <script setup>
     import FooterBox from "./components/FooterBox.vue";
+    import headerBox from "./components/headerBox.vue";
 </script>
 
 <style lang="scss">

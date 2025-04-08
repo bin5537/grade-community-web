@@ -1,0 +1,67 @@
+header {
+    position: relative;
+    width: 100%;
+    border-bottom: 1px solid $lineColor;
+
+    .inner {
+        position: relative;
+        margin: 0 auto;
+        width: 1280px;
+        height: 80px;
+
+        display: flex;
+        align-items: center;
+
+        >h1.logo {
+            padding: 8px 16px;
+            @include gradientText(28px, 1);
+        }
+
+        >nav {
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+
+            display: flex;
+
+            >ul {
+                display: flex;
+                align-items: center;
+                >li {
+                    >a {
+                        padding: 8px 16px;
+                        color: $primaryColor;
+                        font: bold 14px/1 $mainFont;
+                        border-radius: 30px;
+
+                        &:hover {
+                            background: $hoverBgColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        #myPage {
+            position: relative;
+            margin-left: auto;
+
+            >ul {
+                display: flex;
+                align-items: center;
+                >li {
+                    >a {
+                        padding: 8px 16px;
+                        color: $primaryColor;
+                        font: bold 14px/1 $mainFont;
+                        border-radius: 30px;
+
+                        &:hover {
+                            background: $hoverBgColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
