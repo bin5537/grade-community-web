@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+# 백업파일
+.bk
 
 # local env files
 .env

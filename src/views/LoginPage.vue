@@ -29,10 +29,13 @@
             </div>
 
             <div class="line end">
-                <a v-for="(link, idx) in footerLinks" :key="idx" :href="link.href">
-                    {{ link.text }}
-                </a>
+                <span v-for="(link, idx) in footerLinks" :key="idx">
+                    <a v-if="link.type === 'a'" :href="link.href">{{ link.text }}</a>
+                    <RouterLink v-else-if="link.type === 'router'" :to="link.href">{{ link.text }}</RouterLink>
+                </span>
             </div>
+
+
         </article>
     </section>
 </template>
@@ -59,10 +62,11 @@
 
     // 하단 하이퍼링크 목록 정리
     const footerLinks = [
-        { text: "아이디 찾기", href: "#" },
-        { text: "비밀번호 찾기", href: "#" },
-        { text: "회원가입", href: "#" },
-    ]
+        { text: "아이디 찾기", href: "#", type: "a" },
+        { text: "비밀번호 찾기", href: "#", type: "a" },
+        { text: "회원가입", href: "/SignUpPage", type: "router" }
+    ];
+
 
     // 카카오 JavaScript SDK 키 (키 노출방지를 위해 env 활용)
     onMounted(() => {
