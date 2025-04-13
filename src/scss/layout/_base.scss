@@ -58,6 +58,17 @@ $hoverBgColor: #f6f6f6;
     gap: $gap;
 }
 
+@mixin inputBase() {
+    width: 100%;
+    height: 44px;
+    padding: 5px 10px;
+    border: 1px solid $lineColor;
+    border-radius: 5px;
+    outline: none;
+    color: $logoDarkColor;
+    font: normal 12px/1 $mainFont;
+}
+
 
 @mixin gradientText($fontSize: 38px, $lineHeight: 1, $fontFamily: $logoFont, $letterSpacing: 1.25px) {
     font: bold #{$fontSize}/#{$lineHeight} #{$fontFamily};

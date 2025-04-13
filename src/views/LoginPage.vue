@@ -35,7 +35,6 @@
                 </span>
             </div>
 
-
         </article>
     </section>
 </template>

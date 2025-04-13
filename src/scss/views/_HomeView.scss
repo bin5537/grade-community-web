@@ -41,7 +41,9 @@ main {
             margin-right: 15px;
         }
 
-        >div {
+        >div.titleBox {
+            position: relative;
+
             >h2 {
                 font: bold 20px/1 $mainFont;
                 margin-bottom: 5px;
@@ -52,5 +54,12 @@ main {
                 font: normal 16px/1 $mainFont;
             }
         }
+    }
+
+    .contentBox {
+        position: relative;
+        display: flex;
+
+        
     }
 }

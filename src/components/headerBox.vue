@@ -7,7 +7,9 @@
 
             <nav>
                 <ul>
-                    <li><a href="#">일반게시판</a></li>
+                    <li>
+                        <router-link to="/GeneralBoard">일반게시판</router-link>
+                    </li>
                     <li><a href="#">익명게시판</a></li>
                     <li><a href="#">학점관리</a></li>
                 </ul>

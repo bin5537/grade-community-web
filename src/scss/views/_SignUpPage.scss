@@ -1,0 +1,101 @@
+#signUpWrap {
+    position: relative;
+    width: 100%;
+    padding: 100px 0;
+
+    #signUpBox {
+        margin: 0 auto;
+        width: 360px;
+
+        display: flex;
+        flex-direction: column;
+
+        div.logo {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+
+            >h1 {
+                @include gradientText(38px, 1);
+                margin-bottom: 15px;
+            }
+
+            >p {
+                color: $subTextColor;
+                font: normal 14px/1 $mainFont;
+            }
+        }
+    }
+}
+
+form {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    >input[type="submit"] {
+        @include inputBase();
+        background: #00aeff;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    >label {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+
+        input {
+            @include inputBase();
+
+            &::placeholder {
+                color: $logoDarkColor;
+            }
+
+            &:focus {
+                border: 1px solid rgba($color: #000000, $alpha: 0.3);
+            }
+        }
+
+        >span.labelTitle {
+            display: flex;
+            align-items: center;
+            color: $primaryColor;
+            font: normal 12px/1 $mainFont;
+            margin-bottom: 10px;
+
+            >span.errorMsg {
+                display: flex;
+                margin-left: 5px;
+                color: rgb(255, 140, 140);
+                font: normal 10px/1 $mainFont;
+            }
+        }
+
+        >span.label2 {
+            display: flex;
+            align-items: center;
+
+            >button {
+                width: 120px;
+                height: 44px;
+                margin-left: 5px;
+
+                outline: none;
+                border: 1px solid $lineColor;
+                border-radius: 5px;
+
+                color: $subTextColor;
+                font: normal 12px/1 $mainFont;
+                cursor: pointer;
+            }
+        }
+    }
+}
