@@ -17,32 +17,19 @@
                 </label>
 
                 <label for="">
-                    <span class="labelTitle">
-                        비밀번호
-                        <span v-if="errorData.password" class="errorMsg">{{ errorData.password }}</span>
-                    </span>
-
-                    <input type="password" v-model="userInfo.password" placeholder="영문, 숫자, 특수문자 12~20자"
-                        @input="passwordCheck(userInfo.password)">
+                    <span class="labelTitle">비밀번호</span>
+                    <input type="password" v-model="userInfo.password" placeholder="영문, 숫자, 특수문자 12~20자">
                 </label>
 
                 <label for="">
-                    <span class="labelTitle">
-                        이름
-                        <span v-if="errorData.name" class="errorMsg">{{ errorData.name }}</span>
-                    </span>
-                    <input type="text" v-model="userInfo.name" placeholder="이름을 입력하세요."
-                        @input="nameCheck(userInfo.name)">
+                    <span class="labelTitle">이름</span>
+                    <input type="text" v-model="userInfo.name" placeholder="이름을 입력하세요.">
                 </label>
 
                 <label for="" class="">
-                    <span class="labelTitle">
-                        이메일
-                        <span v-if="errorData.email" class="errorMsg">{{ errorData.email }}</span>
-                    </span>
+                    <span class="labelTitle">이메일</span>
                     <span class="label2">
-                        <input type="text" v-model="userInfo.email" placeholder="@를 포함하여 입력하세요."
-                            @input="emailCheck(userInfo.email)">
+                        <input type="text" v-model="userInfo.email" placeholder="@를 포함하여 입력하세요.">
                         <button @click="sendCode" type="button">인증코드 발송</button>
                     </span>
                 </label>
@@ -55,11 +42,8 @@
                 </label>
 
                 <label for="">
-                    <span class="labelTitle">
-                        생년월일
-                        <span v-if="errorData.birth" class="errorMsg">{{ errorData.birth }}</span>
-                    </span>
-                    <input type="date" v-model="userInfo.birth" @input="birthCheck(userInfo.birth)">
+                    <span class="labelTitle">생년월일</span>
+                    <input type="date" v-model="userInfo.birth">
                 </label>
 
                 <input type="submit" value="회원가입">
@@ -98,7 +82,6 @@ const errorData = ref({
     birth: ""
 });
 
-// 아이디 유효성 검사
 const userIdCheck = (user_id) => {
     // A ~ Z, a ~ z, 0 ~ 9 (6 ~ 14자 확인)
     const checkType = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,14}$/;
@@ -108,78 +91,12 @@ const userIdCheck = (user_id) => {
         if (user_id.length === 0) {
             errorData.value.user_id = "";
         } else {
-            errorData.value.user_id = "6~14자의 영문과 숫자를 포함해야 합니다.";
+            errorData.value.user_id = "6~14자의 영문과 숫자만 사용하세요.";
         }
         return false;
     }
 
     errorData.value.user_id = "";
-    return true;
-}
-
-// 비밀번호 유효성 검사
-const passwordCheck = (password) => {
-    // 영문, 숫자, 특수문자 포함하여 12~20자
-    const checkType = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{12,20}$/;
-
-    if (!checkType.test(password)) {
-        if (password.length === 0) {
-            errorData.value.password = "";
-        } else {
-            errorData.value.password = "12~20자의 영문, 숫자, 특수문자를 포함해야 합니다.";
-        }
-        return false;
-    }
-    errorData.value.password = "";
-    return true;
-}
-
-// 이름 유효성 검사
-const nameCheck = (name) => {
-    // 한글 2~8자자
-    const checkType = /^[가-힣]{2,8}$/;
-
-    if (!checkType.test(name)) {
-        if (name.length === 0) {
-            errorData.value.name = "";
-        } else {
-            errorData.value.name = "2~8자의 한글 이름만 입력해야 합니다.";
-        }
-        return false;
-    }
-    errorData.value.name = "";
-    return true;
-}
-
-// 이메일 유효성 검사
-const emailCheck = (email) => {
-    // 일반적인 이메일 형식
-    const checkType = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!checkType.test(email)) {
-        if (email.length === 0) {
-            errorData.value.email = "";
-        } else {
-            errorData.value.email = "올바른 이메일 형식으로 입력해주세요.";
-        }
-        return false;
-    }
-
-    errorData.value.email = "";
-    return true;
-}
-
-// 생년월일 유효성 검사
-const birthCheck = (birth) => {
-    const selectDate = new Date(birth);
-    const today = new Date();
-
-    if (selectDate > today) {
-        errorData.value.birth = "올바른 생년월일을 입력해주세요.";
-        return false;
-    }
-
-    errorData.value.birth = "";
     return true;
 }
 
@@ -228,11 +145,6 @@ const verifyCode = async () => {
 const signUp = async () => {
     // 이메일 인증이 완료가 안된 경우 return
     if (!userIdCheck(userInfo.value.user_id)) return;
-    if (!passwordCheck(userInfo.value.password)) return;
-    if (!nameCheck(userInfo.value.name)) return;
-    if (!emailCheck(userInfo.value.email)) return;
-    if (!birthCheck(userInfo.value.birth)) return;
-
     if (!emailVerified.value) return;
 
     try {
