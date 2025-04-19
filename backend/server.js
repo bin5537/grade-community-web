@@ -1,12 +1,33 @@
-const express = require("express");         // 웹 서버 구축
-const mysql2 = require("mysql2/promise");   // MySql 데이터베이스 연결 라이브러리
-const nodemailer = require("nodemailer");   // 이메일 발송 라이브러리
+const express = require("express"); // 웹 서버 구축
+const mysql2 = require("mysql2/promise"); // MySql 데이터베이스 연결 라이브러리
+const nodemailer = require("nodemailer"); // 이메일 발송 라이브러리
+
+// 2025-04-15 (세션작업)
+const cors = require("cors");
+const exSession = require("express-session");
+const session = require("express-session");
 
 // 환경변수 불러오기기
 require("dotenv").config();
 
 const app = express();
+const maxAge = 1000; // 세션 유지 시간
+
 app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:1115",
+    credentials: true
+}))
+app.use(session({
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: maxAge * (1000 * 60 ^ 60)
+    }
+}));
 
 // 데이터베이스 연결
 const database = mysql2.createPool({
@@ -33,7 +54,7 @@ app.post("/auth/sendCode", async (req, res) => {
 
     // SMTP 설정 (user: 이메일 주소, pass: 구글 앱 비밀번호)
     const transporter = nodemailer.createTransport({
-        service: "gmail",       // gmail 사용
+        service: "gmail", // gmail 사용
         auth: {
             user: process.env.GMAIL_USER,
             pass: process.env.GMAIL_PASS
@@ -109,6 +130,39 @@ app.post("/auth/signUp", async (req, res) => {
         res.json({
             success: false
         });
+    }
+});
+
+// 로그인
+
+app.post("/auth/login", async (req, res) => {
+    const {
+        user_id,
+        password
+    } = req.body;
+
+    try {
+        const dataResult = await database.query(
+            `SELECT * FROM mojuk_users WHERE user_id = ? AND password = ?`,
+            [user_id, password]
+        );
+
+        if (dataResult.length > 0) {
+            req.session.user = {
+                id: dataResult[0].id,
+                user_id: dataResult[0].user_id,
+                name: dataResult[0].name
+            }
+
+            res.json({
+                success: true,
+                user: req.session.user
+            });
+        }
+    } catch {
+        res.json({
+            success: false
+        })
     }
 });
 
