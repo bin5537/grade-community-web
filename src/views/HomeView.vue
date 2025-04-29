@@ -13,16 +13,13 @@
                 </div>
             </article>
             <article class="contentBox">
-                <div class="contentList">
-                    <span class="title">가입 대학생</span>
-                    <span class=""></span>
-                </div>
+
             </article>
         </section>
     </main>
 </template>
 
 <style lang="scss">
-    @import "../scss/layout/_base.scss";
-    @import "../scss/views/_HomeView.scss";
+@import "../scss/layout/_base.scss";
+@import "../scss/views/_HomeView.scss";
 </style>

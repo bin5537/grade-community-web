@@ -47,8 +47,10 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
+const router = useRouter();
 const user_id = ref("");
 const password = ref("");
 
@@ -101,7 +103,10 @@ const login = async () => {
         });
 
         if (res.data.success) {
-            alert("로그인 ㅇㄹ");
+            alert("로그인을 성공하였습니다.");
+            router.push("/");
+        } else {
+            alert("아이디 또는 비밀번호가 올바르지 않습니다.")
         }
     } catch (error) {
         alert(error);

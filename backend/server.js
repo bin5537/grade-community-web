@@ -2,6 +2,7 @@ const express = require("express");
 const mysql2 = require("mysql2/promise");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 // 환경변수 불러오기
 require("dotenv").config();
@@ -57,11 +58,11 @@ app.post("/auth/sendCode", async (req, res) => {
             `
         });
 
-        res.json({
+        return res.json({
             success: true
         });
     } catch {
-        res.json({
+        return res.json({
             success: false
         });
     }
@@ -95,15 +96,16 @@ app.post("/auth/signUp", async (req, res) => {
     } = req.body;
 
     try {
+        const bcryptPassword = await bcrypt.hash(password, 10);
         await database.query(
             `INSERT INTO mojuk_users (user_id, password, name, email, birth, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())`,
-            [user_id, password, name, email, birth]
+            [user_id, bcryptPassword, name, email, birth]
         );
-        res.json({
+        return res.json({
             success: true
         });
     } catch {
-        res.json({
+        return res.json({
             success: false
         });
     }
@@ -111,32 +113,38 @@ app.post("/auth/signUp", async (req, res) => {
 
 // 로그인
 app.post("/auth/login", async (req, res) => {
-    const {
-        user_id,
-        password
-    } = req.body;
+    const { user_id, password } = req.body;
 
     try {
-        const [dataResult] = await database.query(
-            `SELECT * FROM mojuk_users WHERE user_id = ? AND password = ?`,
-            [user_id, password]
+        const [users] = await database.query(
+            `SELECT * FROM mojuk_users WHERE user_id = ?`,
+            [user_id]
         );
 
-        if (dataResult.length > 0) {
-            res.json({
-                success: true
-            });
-        } else {
-            res.json({
+        if (users.length === 0) {
+            return res.json({
                 success: false
             });
         }
-    } catch {
-        res.json({
+
+        const passwordCheck = await bcrypt.compare(password, users[0].password);
+        if (passwordCheck) {
+            return res.json({
+                success: true
+            });
+        } else {
+            return res.json({
+                success: false
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.json({
             success: false
         });
     }
 });
+
 
 // 서버 시작
 app.listen(3000, () => {

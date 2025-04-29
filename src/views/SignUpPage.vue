@@ -224,16 +224,22 @@ const verifyCode = async () => {
     }
 }
 
+// 필드 확인
+function checkField(type, alertMsg) {
+    if (!type) {
+        alert(alertMsg);
+        return false;
+    }
+    return true;
+}
+
 // 회원가입
 const signUp = async () => {
-    // 이메일 인증이 완료가 안된 경우 return
-    if (!userIdCheck(userInfo.value.user_id)) return;
-    if (!passwordCheck(userInfo.value.password)) return;
-    if (!nameCheck(userInfo.value.name)) return;
-    if (!emailCheck(userInfo.value.email)) return;
-    if (!birthCheck(userInfo.value.birth)) return;
-
-    if (!emailVerified.value) return;
+    if (!checkField(userIdCheck(userInfo.value.user_id), "올바른 아이디를 입력해주세요.")) return;
+    if (!checkField(passwordCheck(userInfo.value.password), "올바른 비밀번호를 입력해주세요.")) return;
+    if (!checkField(nameCheck(userInfo.value.name), "올바른 이름을 입력해주세요.")) return;
+    if (!checkField(emailCheck(userInfo.value.email), "올바른 이메일을 입력해주세요.")) return;
+    if (!checkField(birthCheck(userInfo.value.birth), "올바른 생년월일을 입력해주세요.")) return;
 
     try {
         // 회원가입 입력란에 입력한 정보를 서버에 전송

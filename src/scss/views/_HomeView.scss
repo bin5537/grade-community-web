@@ -58,8 +58,35 @@ main {
 
     .contentBox {
         position: relative;
+        width: 100%;
         display: flex;
+        justify-content: space-evenly;
+        margin: 20px 0;
 
-        
+
+        .contentList {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            >span {
+                display: flex;
+                justify-content: center;
+
+                &.title {
+                    font: bold 20px/1 $mainFont;
+                    margin-bottom: 5px;
+                }
+                &.subTitle {
+                    color: $subTextColor;
+                    font: normal 16px/1 $mainFont;
+
+                    .count {
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
     }
 }
