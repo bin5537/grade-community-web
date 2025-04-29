@@ -1,32 +1,17 @@
-const express = require("express"); // 웹 서버 구축
-const mysql2 = require("mysql2/promise"); // MySql 데이터베이스 연결 라이브러리
-const nodemailer = require("nodemailer"); // 이메일 발송 라이브러리
-
-// 2025-04-15 (세션작업)
+const express = require("express");
+const mysql2 = require("mysql2/promise");
+const nodemailer = require("nodemailer");
 const cors = require("cors");
-const exSession = require("express-session");
-const session = require("express-session");
 
-// 환경변수 불러오기기
+// 환경변수 불러오기
 require("dotenv").config();
 
 const app = express();
-const maxAge = 1000; // 세션 유지 시간
 
 app.use(express.json());
 app.use(cors({
     origin: "http://localhost:1115",
     credentials: true
-}))
-app.use(session({
-    secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: false,
-        maxAge: maxAge * (1000 * 60 ^ 60)
-    }
 }));
 
 // 데이터베이스 연결
@@ -45,16 +30,11 @@ app.post("/auth/sendCode", async (req, res) => {
     const {
         email
     } = req.body;
-
-    // 100,000 ~ 999,999 이하 랜덤 정수 생성
     const code = Math.floor(100000 + Math.random() * 900000);
-
-    // 인증코드를 이메일에 저장
     emailCode[email] = code;
 
-    // SMTP 설정 (user: 이메일 주소, pass: 구글 앱 비밀번호)
     const transporter = nodemailer.createTransport({
-        service: "gmail", // gmail 사용
+        service: "gmail",
         auth: {
             user: process.env.GMAIL_USER,
             pass: process.env.GMAIL_PASS
@@ -62,7 +42,6 @@ app.post("/auth/sendCode", async (req, res) => {
     });
 
     try {
-        // 인증코드 이메일 발송 (html을 이용한 디자인)
         await transporter.sendMail({
             to: email,
             subject: "[Mojuk] 회원가입 인증코드 발송",
@@ -94,8 +73,6 @@ app.post("/auth/verifyCode", (req, res) => {
         code,
         email
     } = req.body;
-
-    // 이메일 코드가 존재하는 경우 입력한 코드와 발급받은 인증코드가 일치한지 확인
     if (emailCode[email] && emailCode[email].toString() === code.toString()) {
         return res.json({
             success: true
@@ -107,7 +84,7 @@ app.post("/auth/verifyCode", (req, res) => {
     }
 });
 
-// 회원가입 (SQL 저장)
+// 회원가입
 app.post("/auth/signUp", async (req, res) => {
     const {
         user_id,
@@ -118,7 +95,6 @@ app.post("/auth/signUp", async (req, res) => {
     } = req.body;
 
     try {
-        // 입력받은 사용자 정보를 DB에 저장하는 쿼리
         await database.query(
             `INSERT INTO mojuk_users (user_id, password, name, email, birth, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())`,
             [user_id, password, name, email, birth]
@@ -134,7 +110,6 @@ app.post("/auth/signUp", async (req, res) => {
 });
 
 // 로그인
-
 app.post("/auth/login", async (req, res) => {
     const {
         user_id,
@@ -142,27 +117,24 @@ app.post("/auth/login", async (req, res) => {
     } = req.body;
 
     try {
-        const dataResult = await database.query(
+        const [dataResult] = await database.query(
             `SELECT * FROM mojuk_users WHERE user_id = ? AND password = ?`,
             [user_id, password]
         );
 
         if (dataResult.length > 0) {
-            req.session.user = {
-                id: dataResult[0].id,
-                user_id: dataResult[0].user_id,
-                name: dataResult[0].name
-            }
-
             res.json({
-                success: true,
-                user: req.session.user
+                success: true
+            });
+        } else {
+            res.json({
+                success: false
             });
         }
     } catch {
         res.json({
             success: false
-        })
+        });
     }
 });
 
