@@ -34,6 +34,7 @@ header {
                         color: $primaryColor;
                         font: bold 14px/1 $mainFont;
                         border-radius: 30px;
+                        cursor: pointer;
 
                         &:hover {
                             background: $hoverBgColor;
@@ -48,18 +49,54 @@ header {
             margin-left: auto;
 
             >ul {
+                position: relative;
                 display: flex;
                 align-items: center;
+                z-index: 1;
 
                 >li {
-                    >a {
+                    >a,
+                    >span {
                         padding: 8px 16px;
                         color: $primaryColor;
                         font: bold 14px/1 $mainFont;
                         border-radius: 30px;
+                        cursor: pointer;
 
                         &:hover {
                             background: $hoverBgColor;
+                        }
+                    }
+
+                    >ul {
+                        position: absolute;
+                        transform: translateX(-50%);
+                        top: 40px;
+                        left: 50%;
+                        padding: 5px;
+                        width: 120px;
+                        display: flex;
+                        flex-direction: column;
+                        background: #fff;
+                        border: 1px solid $lineColor;
+                        border-radius: 5px;
+
+                        >li {
+                            position: relative;
+                            width: 100%;
+                            >a {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                width: 100%;
+                                padding: 5px;
+                                color: $primaryColor;
+                                font: bold 12px/1 $mainFont;
+                                border-radius: 2.5px;
+                            }
+                            &:hover {
+                                background: $hoverBgColor;
+                            }
                         }
                     }
                 }
