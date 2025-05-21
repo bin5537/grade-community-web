@@ -57,7 +57,16 @@ app.post("/auth/sendCode", async (req, res) => {
         await transporter.sendMail({
             to: email,
             subject: "[Mojuk] 회원가입 인증코드 발송",
-            html: `<div>인증코드: ${code}</div>`
+            html: `
+                <div style="max-width:520px; margin:0 auto; padding:20px; border:1px solid #e0e0e0; border-radius:5px; font-family:'SpoqaHanSansNeo', sans-serif;">
+                    <h2 style="color:#444; font-size:28px; font-weight:bold;">Mojuk 인증코드</h2>
+                    <p style="color:#999; font-size:16px;">아래의 인증코드를 입력해주세요.</p>
+                    <div style="background:#f5f5f5; padding:20px 0; text-align:center; font-size:32px; letter-spacing:10px; font-weight:bold; color:#333; margin:20px 0;">
+                        ${code}
+                    </div>
+                    <p style="color:#999; font-size:12px;">ⓒ 2025. subin All Rights Reserved.</p>
+                </div>
+            `
         });
 
         return res.json({ success: true });
