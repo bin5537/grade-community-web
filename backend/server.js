@@ -5,6 +5,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
@@ -13,8 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:1115",
-    credentials: true
+  origin: ["http://localhost:1115", "http://192.168.200.106:1115", "http://122.46.30.192:1115"],
+  credentials: true
 }));
 
 app.use(session({
@@ -134,8 +135,64 @@ app.post("/auth/login", async (req, res) => {
     }
 });
 
+// 카카오 로그인
+app.post("/auth/kakao", async (req, res) => {
+    const { access_token } = req.body;
+
+    try {
+        const kakaoRes = await axios.get("https://kapi.kakao.com/v2/user/me", {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        });
+
+        const kakaoData = kakaoRes.data;
+        const kakaoId = kakaoData.id;
+        const nickname = kakaoData.properties?.nickname || `kakao_${kakaoId}`;
+        const user_id = `kakao_${kakaoId}`;
+        const email = kakaoData.kakao_account?.email || `${kakaoId}@kakao.com`;
+        const birth = null;
+
+        const [users] = await database.query(
+            `SELECT * FROM mojuk_users WHERE kakao_id = ?`,
+            [kakaoId]
+        );
+
+        let user;
+        if (users.length === 0) {
+            await database.query(
+                `INSERT INTO mojuk_users (user_id, name, email, password, kakao_id, birth, created_at, updated_at)
+                 VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+                [user_id, nickname, email, "", kakaoId, birth]
+            );
+
+            const [newUser] = await database.query(
+                `SELECT * FROM mojuk_users WHERE kakao_id = ?`,
+                [kakaoId]
+            );
+
+            user = newUser[0];
+        } else {
+            user = users[0];
+        }
+
+        req.session.user = {
+            id: user.id,
+            user_id: user.user_id,
+            name: user.name
+        };
+
+        return res.json({ success: true });
+    } catch (err) {
+        console.error("[카카오 로그인 오류]", err);
+        return res.json({ success: false });
+    }
+});
+
+
 // 세션 확인
 app.get("/auth/check", (req, res) => {
+    console.log("check")
     if (req.session.user) {
         res.json({ isLogin: true, user: req.session.user });
     } else {
@@ -155,3 +212,4 @@ app.post("/auth/logout", (req, res) => {
 app.listen(3000, () => {
     console.log("server.js (port: 3000)");
 });
+

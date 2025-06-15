@@ -39,8 +39,9 @@ a {
     height: 100vh;
 }
 
-$mainFont: "SpoqaHanSansNeo";
-$logoFont: "Paperlogy";
+$mainFont: -apple-system, BlinkMacSystemFont, "Spoqa Han Sans Neo", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", "Segoe UI", "Roboto", sans-serif;
+$logoFont: "Paperlogy", "Spoqa Han Sans Neo", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
 $baseFontSize: 14px;
 $primaryColor: #444;
 $subTextColor: #999;

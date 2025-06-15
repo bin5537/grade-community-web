@@ -190,7 +190,7 @@ const emailVerified = ref(false);
 const sendCode = async () => {
     try {
         // 서버로 전송하여 인증코드 발송을 요청
-        const res = await axios.post("http://localhost:3000/auth/sendCode", {
+        const res = await axios.post("http://122.46.30.192:3000/auth/sendCode", {
             email: userInfo.value.email
         });
 
@@ -207,7 +207,7 @@ const sendCode = async () => {
 const verifyCode = async () => {
     try {
         // 입력한 인증코드와 이메일 주소를 서버로 전송
-        const res = await axios.post("http://localhost:3000/auth/verifyCode", {
+        const res = await axios.post("http://122.46.30.192:3000/auth/verifyCode", {
             code: userInfo.value.codeInput,
             email: userInfo.value.email
         });
@@ -243,7 +243,7 @@ const signUp = async () => {
 
     try {
         // 회원가입 입력란에 입력한 정보를 서버에 전송
-        const res = await axios.post("http://localhost:3000/auth/signUp", {
+        const res = await axios.post("http://122.46.30.192:3000/auth/signUp", {
             user_id: userInfo.value.user_id,
             password: userInfo.value.password,
             name: userInfo.value.name,

@@ -43,7 +43,7 @@ const username = ref("");
 
 const checkLogin = async () => {
     try {
-        const { data } = await axios.get("http://localhost:3000/auth/check");
+        const { data } = await axios.get("http://122.46.30.192:3000/auth/check");
         if (data.isLogin) {
             isLogin.value = true;
             username.value = data.user.name;
@@ -55,7 +55,7 @@ const checkLogin = async () => {
 
 const logout = async () => {
     try {
-        await axios.post("http://localhost:3000/auth/logout");
+        await axios.post("http://122.46.30.192:3000/auth/logout");
         isLogin.value = false;
     } catch (error) {
         alert(error);

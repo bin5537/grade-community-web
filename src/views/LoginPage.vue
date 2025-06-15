@@ -80,22 +80,43 @@ onMounted(() => {
 });
 
 // 간편 로그인 버튼 클릭시 (category로 값을 받아 확인(카카오, 네이버 등))
-function oAuthLogin(category) {
-    if (category === "kakao") {
-        // kakao가 없거나 Auth가 없으면 return
-        if (!window.Kakao || !window.Kakao.Auth) return;
+const oAuthLogin = async (category) => {
+    if (category !== "kakao") return;
 
-        // 카카오 로그인 인증요청
-        window.Kakao.Auth.authorize({ redirectUri: "http://localhost:1115/kakao/callback" });
-    } else if (category === "naver") {
-        // 네이버인경우 실행
-        alert("naver 인증요청(test)");
+    if (!window.Kakao || !window.Kakao.Auth || !window.Kakao.isInitialized()) {
+        return;
     }
-}
 
+    try {
+        const authObj = await new Promise((resolve, reject) => {
+            window.Kakao.Auth.login({
+                scope: "profile_nickname, account_email",
+                success: resolve,
+                fail: reject
+            });
+        });
+
+        const res = await axios.post("http://122.46.30.192:3000/auth/kakao", {
+            access_token: authObj.access_token
+        }, { withCredentials: true });
+
+        if (res.data.success) {
+            alert("카카오 로그인을 성공하였습니다.");
+            window.location.href = "/";
+        } else {
+            alert("카카오 로그인에 실패하였습니다.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("카카오 로그인 중 오류가 발생했습니다." + JSON.stringify(err));
+    }
+};
+
+
+// 로컬 로그인
 const login = async () => {
     try {
-        const res = await axios.post("http://localhost:3000/auth/login", {
+        const res = await axios.post("http://122.46.30.192:3000/auth/login", {
             user_id: user_id.value,
             password: password.value
         });
