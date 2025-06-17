@@ -58,7 +58,7 @@ const checkBoxs = [
     { id: "keep_login", label: "자동 로그인" },
 ]
 
-// 간편 로그인 목록록 정리
+// 간편 로그인 목록 정리
 const oAuthButtons = [
     { category: "kakao", text: "카카오로 로그인" },
     { category: "naver", text: "네이버로 로그인" },
